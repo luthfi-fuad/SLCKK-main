@@ -1,6 +1,11 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Trim any accidental spaces from Vercel ENV and force Fetch client for Vercel stability
+const stripe = new Stripe((process.env.STRIPE_SECRET_KEY || '').trim(), {
+  apiVersion: '2023-10-16',
+  httpClient: Stripe.createFetchHttpClient(),
+});
+
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
