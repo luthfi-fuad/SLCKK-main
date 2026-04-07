@@ -1,0 +1,21 @@
+# version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    restart: always
+
+  api:
+    build: ./server
+    ports:
+      - "3001:3001"
+    volumes:
+      - sqlite_data:/app/data
+    restart: always
+    env_file:
+      - ./server/.env
+
+volumes:
+  sqlite_data:
